@@ -2,26 +2,19 @@ package main.algorithms;
 
 import main.Point;
 import main.data_structure.Stack;
-
 import java.util.Arrays;
 
 public class JarvisMarch {
     public static Stack<Point> convexHull(Point[] points) {
         int n = points.length;
-
         if(n<3) {
-            //convex hull not possible
-            return new Stack<>();
+            return new Stack<>();  // convex hull not possible
         }
 
-        // Find the point with the lowest y-coordinate (and leftmost if ties)
-        Point pivot = findPivot(points);
-
-        System.out.println("The lowest point of all is "+ pivot.x + " " + pivot.y);
+        Point pivot = findPivot(points);  // find the lowest point
 
         // Build the convex hull using Stack
-        Stack<Point> hull = buildConvexHull(points, pivot);
-        return hull;
+        return buildConvexHull(points, pivot);
     }
 
     private static Point findPivot(Point[] points) {
@@ -37,26 +30,18 @@ public class JarvisMarch {
 
     private static Stack<Point> buildConvexHull(Point[] points, Point pivot) {
         Stack<Point> hull = new Stack<>();
-        hull.push(pivot);
         Arrays.sort(points, pivot.polarOrder());
+        Point current = pivot;
         do {
-            Arrays.sort(points, pivot.polarOrder());
+            hull.push(current);
             Point next = points[0];
-            int i = 1;
-            while (next.equals(pivot) && i < points.length) {
-                next = points[i++];
+            for (int i = 1; i < points.length; i++) {
+                if (next.equals(current) || Point.orientation(current, next, points[i]) == 1) {
+                    next = points[i];
+                }
             }
-
-            if (i == points.length && next.equals(pivot)) {
-                System.out.println("breaking");
-                // All points are the same, or there are fewer than two distinct points
-                break;
-            }
-            System.out.println(next.x + " " + next.y + "\n\n");
-            hull.push(next);
-            pivot = next;
-        } while (!pivot.equals(hull.get(0)));  // Terminate when the next selected point is the starting point
+            current = next;
+        } while (!current.equals(pivot)); // Terminate when the next selected point is the starting point
         return hull;
     }
-
 }

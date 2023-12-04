@@ -13,12 +13,32 @@ public class CSVHelper {
             writer.println("x,y"); // CSV header
 
             for (int i = 0; i < numPoints; i++) {
-                int x = random.nextInt(50); // Adjust the range as needed
-                int y = random.nextInt(50);
+                double x = random.nextDouble()*50; // Adjust the range as needed
+                double y = random.nextDouble()*50;
                 writer.println(x + "," + y);
             }
             writer.close();
             System.out.println("Points generated and exported to " + fileName);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public static void createElapsedTimeFile() {
+        try (PrintWriter writer = new PrintWriter(new FileWriter("elapsed_times.csv", false))) {
+            writer.write("Algorithm,InputSize,ElapsedTime\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void exportElapsedTimeToCSV(String filename, String algorithm, int inputSize, long elapsedTime) {
+        boolean fileExists = new File(filename).exists();
+
+        try (PrintWriter writer = new PrintWriter(new FileWriter(filename, true))) {
+            if (!fileExists) {
+                writer.write("Algorithm,InputSize,ElapsedTime\n");
+            }
+            writer.write(algorithm + "," + inputSize + "," + elapsedTime+"\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -48,8 +68,8 @@ public class CSVHelper {
             return br.lines()
                     .map(line -> {
                         String[] values = line.split(",");
-                        int x = Integer.parseInt(values[0]);
-                        int y = Integer.parseInt(values[1]);
+                        double x = Double.parseDouble(values[0]);
+                        double y = Double.parseDouble(values[1]);
                         return new Point(x, y);
                     })
                     .toArray(Point[]::new);

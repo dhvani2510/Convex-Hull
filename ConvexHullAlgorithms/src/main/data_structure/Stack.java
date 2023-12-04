@@ -1,15 +1,20 @@
 package main.data_structure;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static java.util.Arrays.stream;
 
 public class Stack<T> {
     private Object[] array;
     private int size;
     private static final int DEFAULT_CAPACITY = 10;
 
-    public List<T> toArray() {
-        return (List<T>) Arrays.stream(array).toList();
+    public List<Object> toArray() {
+        return List.of(array);
     }
 
     public Object get(int index) {

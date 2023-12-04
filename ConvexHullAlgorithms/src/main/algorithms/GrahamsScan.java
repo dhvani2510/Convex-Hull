@@ -3,36 +3,20 @@ package main.algorithms;
 import main.Point;
 import main.data_structure.Stack;
 import java.util.Arrays;
-import java.util.List;
 
 public class GrahamsScan {
-    // Point class remains the same
-
     // Function to find the convex hull using Graham's Scan
     public static Stack<Point> convexHull(Point[] points) {
         int n = points.length;
-
         if(n<3) {
-            //convex hull not possible
-            return new Stack<>();
+            return new Stack<>();  //convex hull not possible
         }
-
-        // Find the point with the lowest y-coordinate (and leftmost if ties)
-        Point pivot = findPivot(points);
-
-        System.out.println("The lowest point of all is "+ pivot.x + " " + pivot.y);
+        Point pivot = findPivot(points);  // find the lowest point
 
         // Sort the points based on polar angle with the pivot
         Arrays.sort(points, pivot.polarOrder());
-        System.out.println("Points after sorting order\n");
-        for (int i = 0; i < points.length; i++) {
-            System.out.println(points[i].x + " " + points[i].y + "\n");
-        }
-
-
-            // Build the convex hull using Stack
-        Stack<Point> hull = buildConvexHull(points, pivot);
-        return hull;
+        // Build the convex hull using Stack
+        return buildConvexHull(points, pivot);
     }
 
     private static Stack<Point> buildConvexHull(Point[] points, Point pivot) {
@@ -41,12 +25,11 @@ public class GrahamsScan {
         hull.push(points[1]);
 
         for (int i = 2; i < points.length; i++) {
-            while (hull.size() > 1 && orientation(hull.peekNextToTop(), hull.peek(), points[i]) <= 0) {
+            while (hull.size() > 1 && Point.orientation(hull.peekNextToTop(), hull.peek(), points[i]) <= 0) {
                 hull.pop();
             }
             hull.push(points[i]);
         }
-
         return hull;
     }
 
@@ -60,16 +43,5 @@ public class GrahamsScan {
             }
         }
         return pivot;
-    }
-
-    private static int orientation(Point p, Point q, Point r) {
-        System.out.println("For the points \n");
-        System.out.println(p.x + " " + p.y);
-        System.out.println(q.x + " " + q.y);
-        System.out.println(r.x + " " + r.y);
-        int val = (q.y - p.y) * (r.x - q.x) - (q.x - p.x) * (r.y - q.y);
-        System.out.println(val + "\n");
-        if (val == 0) return 0; // Collinear
-        return (val > 0) ? -1 : 1; // Clockwise or counterclockwise
     }
 }

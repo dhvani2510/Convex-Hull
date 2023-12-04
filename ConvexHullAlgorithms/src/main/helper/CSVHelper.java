@@ -1,6 +1,6 @@
 package main.helper;
 
-import main.Point;
+import main.data_structure.Point;
 import main.data_structure.Stack;
 
 import java.io.*;
@@ -13,8 +13,8 @@ public class CSVHelper {
             writer.println("x,y"); // CSV header
 
             for (int i = 0; i < numPoints; i++) {
-                double x = random.nextDouble()*50; // Adjust the range as needed
-                double y = random.nextDouble()*50;
+                double x = random.nextDouble()*5000; // Adjust the range as needed
+                double y = random.nextDouble()*5000;
                 writer.println(x + "," + y);
             }
             writer.close();
@@ -51,7 +51,7 @@ public class CSVHelper {
 
             // Write points
             while (!points.isEmpty()) {
-                Point p = points.pop();
+                Point p =(Point) points.pop();
                 writer.write(p.x + "," + p.y + "\n");
             }
         } catch (IOException e) {

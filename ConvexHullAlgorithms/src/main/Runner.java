@@ -2,6 +2,7 @@ package main;
 
 import main.algorithms.GrahamsScan;
 import main.algorithms.JarvisMarch;
+import main.data_structure.Point;
 import main.data_structure.Stack;
 import main.helper.CSVHelper;
 

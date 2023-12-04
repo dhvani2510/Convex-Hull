@@ -1,6 +1,6 @@
 package main.algorithms;
 
-import main.Point;
+import main.data_structure.Point;
 import main.data_structure.Stack;
 import java.util.Arrays;
 
@@ -16,16 +16,16 @@ public class GrahamsScan {
         // Sort the points based on polar angle with the pivot
         Arrays.sort(points, pivot.polarOrder());
         // Build the convex hull using Stack
-        return buildConvexHull(points, pivot);
+        return buildConvexHull(points);
     }
 
-    private static Stack<Point> buildConvexHull(Point[] points, Point pivot) {
+    private static Stack<Point> buildConvexHull(Point[] points) {
         Stack<Point> hull = new Stack<>();
         hull.push(points[0]);
         hull.push(points[1]);
 
         for (int i = 2; i < points.length; i++) {
-            while (hull.size() > 1 && Point.orientation(hull.peekNextToTop(), hull.peek(), points[i]) <= 0) {
+            while (hull.size() > 1 && Point.orientation((Point)hull.peekNextToTop(), (Point)hull.peek(), points[i]) <= 0) {
                 hull.pop();
             }
             hull.push(points[i]);

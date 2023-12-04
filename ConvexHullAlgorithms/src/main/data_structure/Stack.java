@@ -1,21 +1,11 @@
 package main.data_structure;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static java.util.Arrays.stream;
 
 public class Stack<T> {
     private Object[] array;
     private int size;
     private static final int DEFAULT_CAPACITY = 10;
-
-    public List<Object> toArray() {
-        return List.of(array);
-    }
 
     public Object get(int index) {
         return array[index];
@@ -33,29 +23,31 @@ public class Stack<T> {
     }
 
     // Pop operation
-    public T pop() {
+    public Object pop() {
         if (isEmpty()) {
             throw new IllegalStateException("Stack is empty");
         }
-        T element = (T) array[--size];
+        Object element = array[--size];
+        if(element==null)
+            throw new ClassCastException("Cannot cast ");
         array[size] = null; // Set the popped element to null for garbage collection
         return element;
     }
 
     // Peek operation
-    public T peek() {
+    public Object peek() {
         if (isEmpty()) {
             throw new IllegalStateException("Stack is empty");
         }
-        return (T) array[size - 1];
+        return  array[size - 1];
     }
 
     // PeekNextToTop operation
-    public T peekNextToTop() {
+    public Object peekNextToTop() {
         if (size < 2) {
             throw new IllegalStateException("Not enough elements in the stack to peek next to top");
         }
-        return (T) array[size - 2];
+        return array[size - 2];
     }
 
     // Check if the stack is empty

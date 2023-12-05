@@ -4,6 +4,7 @@ import main.data_structure.Point;
 import main.data_structure.Stack;
 
 import java.io.*;
+import java.util.List;
 import java.util.Random;
 
 public class CSVHelper {
@@ -44,15 +45,15 @@ public class CSVHelper {
         }
     }
 
-    public static void exportToCSV(Stack<Point> points, String filePath) {
+    public static void exportToCSV(List<Point> points, String filePath) {
         try (FileWriter writer = new FileWriter(filePath)) {
             // Write header
             writer.write("x,y\n");
 
             // Write points
-            while (!points.isEmpty()) {
-                Point p =(Point) points.pop();
-                writer.write(p.x + "," + p.y + "\n");
+            for (Point p:points) {
+                if (p != null)
+                    writer.write(p.x + "," + p.y + "\n");
             }
         } catch (IOException e) {
             e.printStackTrace();

@@ -1,6 +1,8 @@
 package main.data_structure;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Stack<T> {
     private Object[] array;
@@ -66,5 +68,14 @@ public class Stack<T> {
             int newCapacity = array.length * 2;
             array = Arrays.copyOf(array, newCapacity);
         }
+    }
+
+    public List<Point> toArray() {
+        List<Point> points = new ArrayList<>();
+        for (Object obj: array) {
+            Point p = (Point) obj;
+            points.add(p);
+        }
+        return points;
     }
 }
